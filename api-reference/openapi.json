@@ -1,11 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Pulsarpay API",
-    "description": "PulsarPay is an automated payment infrastructure designed specifically for APIs and autonomous agents.",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "PulsarPay API",
+    "description": "PulsarPay is an automated payment infrastructure designed specifically for APIs and autonomous agents. It allows users to top up credits while agents execute charges for their services.",
     "version": "1.0.0"
   },
   "servers": [
@@ -14,24 +11,17 @@
       "description": "Production Server"
     }
   ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
   "paths": {
     "/api/v1/agents/register": {
       "post": {
         "tags": ["Agents"],
         "summary": "Register an Agent",
-        "description": "Register a new agent into the Pulsarpay infrastructure.",
+        "description": "Register a new agent into the PulsarPay infrastructure.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AgentRegistration"
-              }
+              "schema": { "$ref": "#/components/schemas/AgentRegistration" }
             }
           }
         },
@@ -40,9 +30,7 @@
             "description": "Agent registered successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentRegistrationResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/AgentRegistrationResponse" }
               }
             }
           }
@@ -53,7 +41,7 @@
       "post": {
         "tags": ["Payments"],
         "summary": "Create a Charge",
-        "description": "Executes a charge against a user's credit balance using an agent key and a user session key.",
+        "description": "Executes a charge against a user's credit balance using agent and user keys.",
         "parameters": [
           {
             "name": "X-user-key",
@@ -74,16 +62,14 @@
             "in": "header",
             "required": true,
             "schema": { "type": "string" },
-            "example": "erer"
+            "example": "1234ererereer"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChargeRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/ChargeRequest" }
             }
           }
         },
@@ -92,18 +78,33 @@
             "description": "Charge processed successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChargeResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ChargeResponse" }
               }
             }
-          },
-          "400": {
-            "description": "Error response",
+          }
+        }
+      }
+    },
+    "/plants": {
+      "get": {
+        "tags": ["Examples"],
+        "summary": "Example: Get Plants",
+        "description": "Reference endpoint to see how arrays and basic GET requests are rendered.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of plants",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Plant" }
                 }
               }
             }
@@ -137,7 +138,7 @@
         "properties": {
           "amount": { "type": "number", "example": 0.1 },
           "currency": { "type": "string", "example": "USDC" },
-          "description": { "type": "string", "example": "your service description" }
+          "description": { "type": "string", "example": "image icon 2px" }
         }
       },
       "ChargeResponse": {
@@ -148,17 +149,18 @@
           "reused": { "type": "boolean", "example": true }
         }
       },
+      "Plant": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "Fern" },
+          "tag": { "type": "string", "example": "Indoor" }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
           "error": { "type": "string", "example": "missing headers" }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }
