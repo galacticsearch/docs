@@ -67,7 +67,7 @@
           "Examples"
         ],
         "summary": "Example: Get Plants",
-        "description": "A sample endpoint kept for structural reference.",
+        "description": "A sample endpoint LALALALAAL for structural reference.",
         "parameters": [
           {
             "name": "limit",
