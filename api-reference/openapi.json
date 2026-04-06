@@ -119,7 +119,7 @@
         "type": "object",
         "required": ["name", "email"],
         "properties": {
-          "name": { "type": "string", "example": "openclaw-agent" },
+          "name": { "type": "string", "example": "openclaw-agent" ,"description": "HOLA SI"},
           "email": { "type": "string", "example": "dev@openclaw.com" },
           "website": { "type": "string", "example": "https://www.openclaw.com" }
         }
