@@ -48,21 +48,24 @@
             "in": "header",
             "required": true,
             "schema": { "type": "string" },
-            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
+            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa",
+            "description":" LOREM IPSUM"
           },
           {
             "name": "X-agent-key",
             "in": "header",
             "required": true,
             "schema": { "type": "string" },
-            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description":" LOREM IPSUM"
           },
           {
             "name": "Idempotency-Key",
             "in": "header",
             "required": true,
             "schema": { "type": "string" },
-            "example": "1234ererereer"
+            "example": "1234ererereer",
+            "description":" LOREM IPSUM"
           }
         ],
         "requestBody": {
@@ -127,8 +130,8 @@
       "AgentRegistrationResponse": {
         "type": "object",
         "properties": {
-          "message": { "type": "string", "example": "agent registered" },
-          "apiKey": { "type": "string", "example": "ag_live__r6kiGniN6M1r3qhYKEjFECn" },
+          "message": { "type": "string", "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation." },
+          "apiKey": { "type": "string", "example": "ag_live__xxxxxxxxxxxxxxxxxx" },
           "enabled": { "type": "boolean", "example": false }
         }
       },
