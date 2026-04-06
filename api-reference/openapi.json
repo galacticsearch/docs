@@ -22,11 +22,9 @@
   "paths": {
     "/api/v1/agents/register": {
       "post": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "summary": "Register an Agent",
-        "description": "Register a new agent into the Pulsarpay infrastructure. This allows the agent to interact with the API and execute charges against user credits.",
+        "description": "Register a new agent into the Pulsarpay infrastructure.",
         "requestBody": {
           "required": true,
           "content": {
@@ -47,25 +45,13 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid input data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
           }
         }
       }
     },
     "/api/v1/agents/charges": {
       "post": {
-        "tags": [
-          "Payments"
-        ],
+        "tags": ["Payments"],
         "summary": "Create a Charge",
         "description": "Executes a charge against a user's credit balance using an agent key and a user session key.",
         "parameters": [
@@ -73,28 +59,22 @@
             "name": "X-user-key",
             "in": "header",
             "required": true,
-            "schema": {
-              "type": "string",
-              "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
-            }
+            "schema": { "type": "string" },
+            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
           },
           {
             "name": "X-agent-key",
             "in": "header",
             "required": true,
-            "schema": {
-              "type": "string",
-              "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
-            }
+            "schema": { "type": "string" },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
           },
           {
             "name": "Idempotency-Key",
             "in": "header",
             "required": true,
-            "schema": {
-              "type": "string",
-              "example": "1234ererereer"
-            }
+            "schema": { "type": "string" },
+            "example": "erer"
           }
         ],
         "requestBody": {
@@ -109,7 +89,7 @@
         },
         "responses": {
           "200": {
-            "description": "Charge processed or retrieved from cache",
+            "description": "Charge processed successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -119,46 +99,11 @@
             }
           },
           "400": {
-            "description": "Missing headers or invalid data",
+            "description": "Error response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants": {
-      "get": {
-        "tags": [
-          "Examples"
-        ],
-        "summary": "Example: Get Plants",
-        "description": "A sample endpoint LALALALAAL for structural reference.",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of plants",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
                 }
               }
             }
@@ -171,68 +116,42 @@
     "schemas": {
       "AgentRegistration": {
         "type": "object",
-        "required": [
-          "name",
-          "email"
-        ],
+        "required": ["name", "email"],
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "openclaw-agent"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "example": "dev@openclaw.com"
-          },
-          "website": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://www.openclaw.com"
-          }
+          "name": { "type": "string", "example": "openclaw-agent" },
+          "email": { "type": "string", "example": "dev@openclaw.com" },
+          "website": { "type": "string", "example": "https://www.openclaw.com" }
         }
       },
       "AgentRegistrationResponse": {
         "type": "object",
         "properties": {
-          "message": {
-            "type": "string",
-            "example": "agent registered"
-          },
-          "apiKey": {
-            "type": "string",
-            "example": "ag_live__r6kiGniN6M1r3qhYKEjFECn"
-          },
-          "enabled": {
-            "type": "boolean",
-            "example": false
-          }
+          "message": { "type": "string", "example": "agent registered" },
+          "apiKey": { "type": "string", "example": "ag_live__r6kiGniN6M1r3qhYKEjFECn" },
+          "enabled": { "type": "boolean", "example": false }
         }
       },
-      "Plant": {
+      "ChargeRequest": {
+        "type": "object",
+        "required": ["amount", "currency", "description"],
+        "properties": {
+          "amount": { "type": "number", "example": 0.1 },
+          "currency": { "type": "string", "example": "USDC" },
+          "description": { "type": "string", "example": "your service description" }
+        }
+      },
+      "ChargeResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "tag": {
-            "type": "string"
-          }
+          "success": { "type": "boolean", "example": true },
+          "chargeId": { "type": "string", "example": "cmnnfoagf0003jk04suqxf3k9" },
+          "reused": { "type": "boolean", "example": true }
         }
       },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer"
-          },
-          "message": {
-            "type": "string"
-          }
+          "error": { "type": "string", "example": "missing headers" }
         }
       }
     },
