@@ -63,7 +63,8 @@
               "api-reference/endpoint/create",
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook",
-              "api-reference/endpoint/register-agent"
+              "api-reference/endpoint/register-agent",
+               "api-reference/endpoint/create-charges"
             ]
           }
         ]

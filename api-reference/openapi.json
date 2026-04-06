@@ -61,6 +61,76 @@
         }
       }
     },
+    "/api/v1/agents/charges": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Create a Charge",
+        "description": "Executes a charge against a user's credit balance using an agent key and a user session key.",
+        "parameters": [
+          {
+            "name": "X-user-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
+            }
+          },
+          {
+            "name": "X-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1234ererereer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChargeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Charge processed or retrieved from cache",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChargeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing headers or invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/plants": {
       "get": {
         "tags": [
