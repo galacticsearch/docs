@@ -14,6 +14,7 @@
   "paths": {
     "/api/v1/agents/register": {
       "post": {
+        "operationId": "registerAgent",
         "tags": ["Agents"],
         "summary": "Register an Agent",
         "description": "Register a new agent into the Pulsarpay infrastructure.",
@@ -37,160 +38,164 @@
         }
       }
     },
-"/api/v1/agents/charges": {
-  "get": {
-    "operationId": "listCharges",
-    "tags": ["Payments"],
-    "summary": "List Charges",
-    "description": "Retrieve a paginated list of charges associated with an agent.",
-    "parameters": [
-      {
-        "name": "x-agent-key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "ag_live_mkJUSITl3hqMt2CgilI2iYAe",
-        "description": "The unique API key of the agent."
-      },
-      {
-        "name": "page",
-        "in": "query",
-        "required": false,
-        "schema": { "type": "integer", "default": 1 },
-        "example": 1,
-        "description": "Page number for pagination. Defaults to 1."
-      },
-      {
-        "name": "limit",
-        "in": "query",
-        "required": false,
-        "schema": { "type": "integer", "default": 50 },
-        "example": 50,
-        "description": "Number of items per page. Defaults to 50."
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "A paginated list of charges.",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/ChargeListResponse" }
-          }
+
+    "/api/v1/agents/charges/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "example": "cmn3tney00001l104hudm7fgy",
+          "description": "The unique identifier of the charge."
         }
-      },
-      "401": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/Error" },
-            "example": { "error": "invalid or disabled agent key" }
+      ],
+      "get": {
+        "operationId": "getChargeById",
+        "tags": ["Payments"],
+        "summary": "Get Charge by ID",
+        "description": "Retrieve a specific charge by its ID.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
           }
-        }
-      }
-    }
-  },
-  "post": {
-    "tags": ["Payments"],
-    "summary": "Create a Charge",
-    "description": "Executes a charge against a user's credit balance.",
-    "parameters": [
-      {
-        "name": "X-user-key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
-      },
-      {
-        "name": "X-agent-key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
-      },
-      {
-        "name": "Idempotency-Key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "1234ererereer"
-      }
-    ],
-    "requestBody": {
-      "required": true,
-      "content": {
-        "application/json": {
-          "schema": { "$ref": "#/components/schemas/ChargeRequest" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Charge retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChargeItem" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "invalid agent key" }
+              }
+            }
+          },
+          "404": {
+            "description": "Charge not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "charge not found" }
+              }
+            }
+          }
         }
       }
     },
-    "responses": {
-      "200": {
-        "description": "Charge processed successfully",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/ChargeResponse" }
-          }
-        }
-      }
-    }
-  }
-},
-"/api/v1/agents/charges/{id}": {
-  "get": {
-    "operationId": "getChargeById",
-    "tags": ["Payments"],
-    "summary": "Get Charge by ID",
-    "description": "Retrieve a specific charge by its ID.",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "cmn3tney00001l104hudm7fgy",
-        "description": "The unique identifier of the charge."
-      },
-      {
-        "name": "X-agent-key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-        "description": "The unique API key of the agent."
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Charge retrieved successfully",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/ChargeItem" }
-          }
-        }
-      },
-      "401": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/Error" },
-            "example": { "error": "invalid agent key" }
-          }
-        }
-      },
-      "404": {
-        "description": "Charge not found",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/Error" },
-            "example": { "error": "charge not found" }
-          }
-        }
-      }
-    }
-  }
-}
 
+    "/api/v1/agents/charges": {
+      "get": {
+        "operationId": "listCharges",
+        "tags": ["Payments"],
+        "summary": "List Charges",
+        "description": "Retrieve a paginated list of charges associated with an agent.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "ag_live_mkJUSITl3hqMt2CgilI2iYAe",
+            "description": "The unique API key of the agent."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 },
+            "example": 1,
+            "description": "Page number for pagination. Defaults to 1."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 50 },
+            "example": 50,
+            "description": "Number of items per page. Defaults to 50."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of charges.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChargeListResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "invalid or disabled agent key" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCharge",
+        "tags": ["Payments"],
+        "summary": "Create a Charge",
+        "description": "Executes a charge against a user's credit balance.",
+        "parameters": [
+          {
+            "name": "x-user-key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
+          },
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "1234ererereer"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChargeRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Charge processed successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChargeResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "components": {
     "schemas": {
@@ -206,7 +211,10 @@
       "AgentRegistrationResponse": {
         "type": "object",
         "properties": {
-          "message": { "type": "string", "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation." },
+          "message": {
+            "type": "string",
+            "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation."
+          },
           "apiKey": { "type": "string", "example": "ag_live__xxxxxxxxxxxxxxxxxx" },
           "enabled": { "type": "boolean", "example": false }
         }
@@ -247,7 +255,11 @@
           "currency": { "type": "string", "example": "USDC" },
           "description": { "type": "string", "example": "hack de pulsar" },
           "status": { "type": "string", "example": "FAILED" },
-          "createdAt": { "type": "string", "format": "date-time", "example": "2026-03-31T22:20:03.217Z" }
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-31T22:20:03.217Z"
+          }
         }
       },
       "Pagination": {
