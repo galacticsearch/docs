@@ -137,6 +137,68 @@
           }
         }
       }
+    },
+    "/api/v1/agents/charges/{id}": {
+      "get": {
+        "tags": ["Payments"],
+        "summary": "Get Charge",
+        "description": "Retrieve details of a specific charge by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "cmn3tney00001l104hudm7fgy",
+            "description": "The unique ID of the charge."
+          },
+          {
+            "name": "X-Agent-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Charge details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChargeItem" },
+                "example": {
+                  "id": "cmn3tney00001l104hudm7fgy",
+                  "idempotencyKey": "1234ererere",
+                  "amount": 0.1,
+                  "currency": "USDC",
+                  "description": "image generation",
+                  "status": "SUCCEEDED",
+                  "createdAt": "2026-03-23T23:33:23.689Z"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid key.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "invalid agent key" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Charge does not exist.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "charge not found" }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -61,7 +61,8 @@
             "pages": [
               "api-reference/endpoint/register-agent",
                "api-reference/endpoint/create-charges",
-               "api-reference/endpoint/get-charges"
+               "api-reference/endpoint/get-charges",
+               "api-reference/endpoint/get-charge"
             ]
           }
         ]
