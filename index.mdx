@@ -94,9 +94,9 @@ PulsarPay is more than a payment gateway — it provides the financial primitive
 2.  **Request:** User triggers a service (e.g., image generation).
 3.  **Authorization & Charge Creation:** The agent attempts to create a charge via PulsarPay. `POST /charges`.
 PulsarPay internally:
-1. Validates the API Key.
-2. Ensures it is scoped to the requesting agent.
-3. Checks if the user has sufficient balance
+* Validates the API Key.
+* Ensures it is scoped to the requesting agent.
+* Checks if the user has sufficient balance
 4.  **Execution:** Once the charge is authorized, the agent performs the requested service and returns the result to the user (e.g., generates and delivers the image).
 5.  **Monetization:** Agent collects earnings through `POST /withdraw`.
 
