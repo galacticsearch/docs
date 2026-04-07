@@ -134,7 +134,61 @@
       }
     }
   }
+},
+"/api/v1/agents/charges/{id}": {
+  "get": {
+    "tags": ["Payments"],
+    "summary": "Get Charge by ID",
+    "description": "Retrieve a specific charge by its ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "example": "cmn3tney00001l104hudm7fgy",
+        "description": "The unique identifier of the charge."
+      },
+      {
+        "name": "X-agent-key",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string" },
+        "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+        "description": "The unique API key of the agent."
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Charge retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ChargeItem" }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "invalid agent key" }
+          }
+        }
+      },
+      "404": {
+        "description": "Charge not found",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "charge not found" }
+          }
+        }
+      }
+    }
+  }
 }
+
   },
   "components": {
     "schemas": {
