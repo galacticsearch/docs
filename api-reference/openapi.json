@@ -39,7 +39,7 @@
       }
     },
 
-    "/api/v1/agents/charge/{id}": {
+    "/api/v1/agents/charges/{id}": {
       "parameters": [
         {
           "name": "id",
