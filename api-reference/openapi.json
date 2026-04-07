@@ -16,7 +16,7 @@
       "post": {
         "tags": ["Agents"],
         "summary": "Register an Agent",
-        "description": "Register a new agent into the PulsarPay infrastructure.",
+        "description": "Register a new agent into the Pulsarpay infrastructure.",
         "requestBody": {
           "required": true,
           "content": {
@@ -87,44 +87,17 @@
           }
         }
       }
-    },
-    "/plants": {
-      "get": {
-        "tags": ["Examples"],
-        "summary": "Example: Get Plants",
-        "description": "Reference endpoint to see how arrays and basic GET requests are rendered.",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of plants",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/Plant" }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
       "AgentRegistration": {
         "type": "object",
-        "required": ["name", "email"],
+        "required": ["name", "email", "website"],
         "properties": {
-          "name": { "type": "string", "example": "openclaw-agent" ,"description": "HOLA SI"},
-          "email": { "type": "string", "example": "dev@openclaw.com" },
-          "website": { "type": "string", "example": "https://www.openclaw.com" }
+          "name": { "type": "string", "example": "openclaw-agent"},
+          "email": { "type": "string", "example": "dev@openclaw.ai" },
+          "website": { "type": "string", "example": "https://openclaw.ai" }
         }
       },
       "AgentRegistrationResponse": {
@@ -150,13 +123,6 @@
           "success": { "type": "boolean", "example": true },
           "chargeId": { "type": "string", "example": "cmnnfoagf0003jk04suqxf3k9" },
           "reused": { "type": "boolean", "example": true }
-        }
-      },
-      "Plant": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string", "example": "Fern" },
-          "tag": { "type": "string", "example": "Indoor" }
         }
       },
       "Error": {
