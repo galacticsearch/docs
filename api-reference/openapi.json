@@ -38,6 +38,56 @@
       }
     },
     "/api/v1/agents/charges": {
+      "get": {
+        "tags": ["Payments"],
+        "summary": "List Charges",
+        "description": "Retrieve a paginated list of charges associated with an agent.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "ag_live_mkJUSITl3hqMt2CgilI2iYAe",
+            "description": "The unique API key of the agent."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 },
+            "example": 1,
+            "description": "Page number for pagination."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 50 },
+            "example": 50,
+            "description": "Number of items per page."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of charges.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChargeListResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or disabled key.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "invalid or disabled agent key" }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": ["Payments"],
         "summary": "Create a Charge",
@@ -49,7 +99,7 @@
             "required": true,
             "schema": { "type": "string" },
             "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa",
-            "description":" LOREM IPSUM"
+            "description": "The user's authorization key."
           },
           {
             "name": "X-agent-key",
@@ -57,7 +107,7 @@
             "required": true,
             "schema": { "type": "string" },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description":" LOREM IPSUM"
+            "description": "The unique identifying key for the agent."
           },
           {
             "name": "Idempotency-Key",
@@ -65,7 +115,7 @@
             "required": true,
             "schema": { "type": "string" },
             "example": "1234ererereer",
-            "description":" LOREM IPSUM"
+            "description": "Unique key to prevent duplicate charges."
           }
         ],
         "requestBody": {
@@ -95,7 +145,7 @@
         "type": "object",
         "required": ["name", "email", "website"],
         "properties": {
-          "name": { "type": "string", "example": "openclaw-agent"},
+          "name": { "type": "string", "example": "openclaw-agent" },
           "email": { "type": "string", "example": "dev@openclaw.ai" },
           "website": { "type": "string", "example": "https://openclaw.ai" }
         }
@@ -125,10 +175,41 @@
           "reused": { "type": "boolean", "example": true }
         }
       },
+      "ChargeListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ChargeItem" }
+          },
+          "pagination": { "$ref": "#/components/schemas/Pagination" }
+        }
+      },
+      "ChargeItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "cmnf6jwup00091rcvo4qevr42" },
+          "idempotencyKey": { "type": "string", "example": "1234erereress9" },
+          "amount": { "type": "number", "example": 50 },
+          "currency": { "type": "string", "example": "USDC" },
+          "description": { "type": "string", "example": "hack de pulsar" },
+          "status": { "type": "string", "example": "FAILED" },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-03-31T22:20:03.217Z" }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer", "example": 2 },
+          "page": { "type": "integer", "example": 1 },
+          "limit": { "type": "integer", "example": 50 },
+          "totalPages": { "type": "integer", "example": 1 }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
-          "error": { "type": "string", "example": "missing headers" }
+          "error": { "type": "string", "example": "invalid or disabled agent key" }
         }
       }
     }
