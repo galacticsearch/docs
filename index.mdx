@@ -24,72 +24,80 @@ PulsarPay is a programmable payment layer built on **Solana** that enables seaml
     icon="rocket"
     href="/quickstart"
   >
-    Integrate your first agent and start processing payments in minutes.
+    Integrate your first agent and start processing pay-per-request interactions in minutes.
   </Card>
   <Card
     title="API Reference"
     icon="code"
     href="/api-reference/introduction"
   >
-    Explore our endpoints for balances, charges, and agent registration.
+    Explore endpoints for balances, withdrawals, and agent integration.
   </Card>
 </CardGroup>
 
 ## Core Concepts
 
-Understand the mental model behind PulsarPay to build better integrations.
+Understand the mental model behind PulsarPay to build robust integrations..
 
 <CardGroup cols={3}>
   <Card title="User-Centric" icon="user">
-    Users top up via USDC or integrated On-ramp and authorize specific agents.
+    Users fund their account with USDC or through the integrated on-ramp, and authorize specific agents via API Keys.
   </Card>
   <Card title="Agent-Driven" icon="robot">
-    Services that execute tasks and collect micro-payments on-demand.
+    Agents are registered services within PulsarPay that: execute tasks, validate user balance, monetize usage via withdrawals
   </Card>
   <Card title="Programmable" icon="gears">
-    Fine-grained control over funds using scoped API Keys for each service.
+    Access to funds is controlled through scoped API Keys, enabling fine-grained authorization per agent.
   </Card>
 </CardGroup>
 
 ## Financial Infrastructure
 
-PulsarPay isn't just a payment gateway; it's a full financial stack integrated into your workflow.
+PulsarPay is more than a payment gateway — it provides the financial primitives required to operate agent-based systems.
 
 <Columns cols={2}>
   <Card
     title="Integrated On-Ramp"
     icon="credit-card"
   >
-    Buy crypto directly within the platform. No need for external exchanges to fund your requests.
+    Buy crypto directly within the platform. No need to rely on external tools to fund your account.
   </Card>
   <Card
     title="Internal Exchange"
     icon="arrows-rotate"
   >
-    Convert between assets (e.g., USDT to USDC) to optimize balance for service consumption.
+    Convert between supported assets (e.g., USDT to USDC) to optimize balances for service execution.
   </Card>
   <Card
     title="Solana Powered"
     icon="bolt"
   >
-    Fast, low-cost settlements using USDC on the Solana blockchain.
+    Fast, low-cost settlement using USDC on Solana.
   </Card>
   <Card
-    title="Automated Ledger"
+    title="Unified Ledger"
     icon="list-check"
   >
-    A comprehensive internal ledger tracks every deposit, exchange, and agent charge.
+    A real-time internal ledger tracks:
+    1. Deposits
+    2. Asset conversions
+    3. Agent activity
+    4. Withdrawals
   </Card>
 </Columns>
 
-## The Flow: From Setup to Monetization
+## The Flow: From Setup to Monetization (happy path)
 
 
 
-1.  **Setup:** User deposits funds or buys crypto and associates an API Key with an Agent.
-2.  **Request:** User triggers a service (e.g., Image Generation).
-3.  **Validation:** Agent checks the balance via `GET /balance`.
-4.  **Execution:** Service is performed and charge is created.
+1.  **Setup:** User deposits funds (or buys crypto) and creates an API Key scoped to a specific agent.
+2.  **Request:** User triggers a service (e.g., image generation).
+3.  **Authorization & Charge Creation:** The agent attempts to create a charge via PulsarPay. `POST /charges`.
+PulsarPay internally:
+1. Validates the API Key.
+2. Ensures it is scoped to the requesting agent.
+3. Checks if the user has sufficient balance
+4.  **Execution:** Once the charge is authorized, the agent performs the requested service and returns the result to the user (e.g., generates and delivers the image).
 5.  **Monetization:** Agent collects earnings through `POST /withdraw`.
 
 ## Security First
@@ -98,8 +106,8 @@ We prioritize the safety of your funds and the reliability of your agents.
 
 * **Scoped API Keys:** Assign keys to specific agents to isolate spending.
 * **Real-time Validation:** Every request is backed by a live balance check.
-* **Non-Custodial Philosophy:** You control your authorization and access.
+* **Controlled Access Model:** Users retain control over which agents can access their funds through explicit authorization.
 
 <Note>
-  **Ready to scale?** PulsarPay allows you to move from one-off tests to full-scale automated agent economies without changing your infrastructure.
+  **PulsarPay enables developers to move from simple integrations to fully automated agent economies — without changing their payment infrastructure.
 </Note>
