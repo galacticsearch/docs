@@ -123,7 +123,7 @@
   },"api": {
   "baseUrl": "https://pulsarpay.io",
   "playground": {
-    "proxy": true
+    "proxy": false
   }
 }
 }
