@@ -120,15 +120,10 @@
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
-  },
-   "api": {
-   "playground": {
-     "display": "interactive"
-   },
-   "examples": {
-     "languages": ["curl", "python", "javascript"],
-     "defaults": "required",
-     "prefill": true
-   }
- }
+  },"api": {
+  "baseUrl": "https://pulsarpay.io",
+  "playground": {
+    "proxy": true
+  }
+}
 }
