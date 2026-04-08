@@ -96,7 +96,7 @@
       }
     },
 
-    "/api/v1/agents/charges": {
+    "/api/v1/agents/charge": {
       "get": {
         "operationId": "listCharges",
         "tags": ["Payments"],
