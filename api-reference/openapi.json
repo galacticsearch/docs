@@ -15,14 +15,18 @@
     "/api/v1/agents/register": {
       "post": {
         "operationId": "registerAgent",
-        "tags": ["Agents"],
+        "tags": [
+          "Agents"
+        ],
         "summary": "Register an Agent",
         "description": "Register a new agent into the Pulsarpay infrastructure.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AgentRegistration" }
+              "schema": {
+                "$ref": "#/components/schemas/AgentRegistration"
+              }
             }
           }
         },
@@ -31,28 +35,33 @@
             "description": "Agent registered successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AgentRegistrationResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRegistrationResponse"
+                }
               }
             }
           }
         }
       }
     },
-
     "/api/v1/agents/charge/{id}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
           "required": true,
-          "schema": { "type": "string" },
+          "schema": {
+            "type": "string"
+          },
           "example": "cmn3tney00001l104hudm7fgy",
           "description": "The unique identifier of the charge."
         }
       ],
       "get": {
         "operationId": "getChargeById",
-        "tags": ["Payments"],
+        "tags": [
+          "Payments"
+        ],
         "summary": "Get Charge by ID",
         "description": "Retrieve a specific charge by its ID.",
         "parameters": [
@@ -60,7 +69,9 @@
             "name": "x-agent-key",
             "in": "header",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
             "description": "The unique API key of the agent."
           }
@@ -70,7 +81,9 @@
             "description": "Charge retrieved successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ChargeItem" }
+                "schema": {
+                  "$ref": "#/components/schemas/ChargeItem"
+                }
               }
             }
           },
@@ -78,8 +91,12 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" },
-                "example": { "error": "invalid agent key" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "invalid agent key"
+                }
               }
             }
           },
@@ -87,19 +104,24 @@
             "description": "Charge not found",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" },
-                "example": { "error": "charge not found" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "charge not found"
+                }
               }
             }
           }
         }
       }
     },
-
     "/api/v1/agents/charges": {
       "get": {
         "operationId": "listCharges",
-        "tags": ["Payments"],
+        "tags": [
+          "Payments"
+        ],
         "summary": "List Charges",
         "description": "Retrieve a paginated list of charges associated with an agent.",
         "parameters": [
@@ -107,7 +129,9 @@
             "name": "x-agent-key",
             "in": "header",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "example": "ag_live_mkJUSITl3hqMt2CgilI2iYAe",
             "description": "The unique API key of the agent."
           },
@@ -115,7 +139,10 @@
             "name": "page",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "default": 1 },
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
             "example": 1,
             "description": "Page number for pagination. Defaults to 1."
           },
@@ -123,7 +150,10 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "default": 50 },
+            "schema": {
+              "type": "integer",
+              "default": 50
+            },
             "example": 50,
             "description": "Number of items per page. Defaults to 50."
           }
@@ -133,7 +163,9 @@
             "description": "A paginated list of charges.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ChargeListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ChargeListResponse"
+                }
               }
             }
           },
@@ -141,8 +173,12 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" },
-                "example": { "error": "invalid or disabled agent key" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "invalid or disabled agent key"
+                }
               }
             }
           }
@@ -150,7 +186,9 @@
       },
       "post": {
         "operationId": "createCharge",
-        "tags": ["Payments"],
+        "tags": [
+          "Payments"
+        ],
         "summary": "Create a Charge",
         "description": "Executes a charge against a user's credit balance.",
         "parameters": [
@@ -158,21 +196,27 @@
             "name": "x-user-key",
             "in": "header",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
           },
           {
             "name": "x-agent-key",
             "in": "header",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
           },
           {
             "name": "Idempotency-Key",
             "in": "header",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "example": "1234ererereer"
           }
         ],
@@ -180,7 +224,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ChargeRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ChargeRequest"
+              }
             }
           }
         },
@@ -189,61 +235,179 @@
             "description": "Charge processed successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ChargeResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ChargeResponse"
+                }
               }
             }
           }
         }
       }
     },
-
     "/api/v1/agents/earnings": {
-  "get": {
-    "operationId": "getAgentEarnings",
-    "tags": ["Payments"],
-    "summary": "Get Agent Earnings",
-    "description": "Retrieve total earnings and charge statistics for an agent.",
-    "parameters": [
-      {
-        "name": "x-agent-key",
-        "in": "header",
-        "required": true,
-        "schema": { "type": "string" },
-        "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-        "description": "The unique API key of the agent."
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Agent earnings retrieved successfully",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/EarningsResponse" }
+      "get": {
+        "operationId": "getAgentEarnings",
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Get Agent Earnings",
+        "description": "Retrieve total earnings and charge statistics for an agent.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent earnings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EarningsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "invalid or disabled agent key"
+                }
+              }
+            }
           }
         }
-      },
-      "401": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/Error" },
-            "example": { "error": "invalid or disabled agent key" }
+      }
+    },
+    "/api/v1/agents/withdraw": {
+      "post": {
+        "operationId": "withdrawAgentBalance",
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Withdraw Funds",
+        "description": "Withdraw funds from the agent's balance to a specified wallet address.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "343434",
+            "description": "A unique key to ensure the request is processed only once."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Withdrawal processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WithdrawResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "insufficientBalance": {
+                    "value": {
+                      "error": "insufficient balance"
+                    }
+                  },
+                  "missingIdempotency": {
+                    "value": {
+                      "error": "missing Idempotency-key"
+                    }
+                  },
+                  "invalidJson": {
+                    "value": {
+                      "error": "invalid json body"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "invalid agent"
+                }
+              }
+            }
           }
         }
       }
     }
-  }
-}
   },
   "components": {
     "schemas": {
       "AgentRegistration": {
         "type": "object",
-        "required": ["name", "email", "website"],
+        "required": [
+          "name",
+          "email",
+          "website"
+        ],
         "properties": {
-          "name": { "type": "string", "example": "openclaw-agent" },
-          "email": { "type": "string", "example": "dev@openclaw.ai" },
-          "website": { "type": "string", "example": "https://openclaw.ai" }
+          "name": {
+            "type": "string",
+            "example": "openclaw-agent"
+          },
+          "email": {
+            "type": "string",
+            "example": "dev@openclaw.ai"
+          },
+          "website": {
+            "type": "string",
+            "example": "https://openclaw.ai"
+          }
         }
       },
       "AgentRegistrationResponse": {
@@ -253,25 +417,53 @@
             "type": "string",
             "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation."
           },
-          "apiKey": { "type": "string", "example": "ag_live__xxxxxxxxxxxxxxxxxx" },
-          "enabled": { "type": "boolean", "example": false }
+          "apiKey": {
+            "type": "string",
+            "example": "ag_live__xxxxxxxxxxxxxxxxxx"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": false
+          }
         }
       },
       "ChargeRequest": {
         "type": "object",
-        "required": ["amount", "currency", "description"],
+        "required": [
+          "amount",
+          "currency",
+          "description"
+        ],
         "properties": {
-          "amount": { "type": "number", "example": 0.1 },
-          "currency": { "type": "string", "example": "USDC" },
-          "description": { "type": "string", "example": "image icon 2px" }
+          "amount": {
+            "type": "number",
+            "example": 0.1
+          },
+          "currency": {
+            "type": "string",
+            "example": "USDC"
+          },
+          "description": {
+            "type": "string",
+            "example": "image icon 2px"
+          }
         }
       },
       "ChargeResponse": {
         "type": "object",
         "properties": {
-          "success": { "type": "boolean", "example": true },
-          "chargeId": { "type": "string", "example": "cmnnfoagf0003jk04suqxf3k9" },
-          "reused": { "type": "boolean", "example": true }
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "chargeId": {
+            "type": "string",
+            "example": "cmnnfoagf0003jk04suqxf3k9"
+          },
+          "reused": {
+            "type": "boolean",
+            "example": true
+          }
         }
       },
       "ChargeListResponse": {
@@ -279,20 +471,42 @@
         "properties": {
           "data": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ChargeItem" }
+            "items": {
+              "$ref": "#/components/schemas/ChargeItem"
+            }
           },
-          "pagination": { "$ref": "#/components/schemas/Pagination" }
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
         }
       },
       "ChargeItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmnf6jwup00091rcvo4qevr42" },
-          "idempotencyKey": { "type": "string", "example": "1234erereress9" },
-          "amount": { "type": "number", "example": 50 },
-          "currency": { "type": "string", "example": "USDC" },
-          "description": { "type": "string", "example": "hack de pulsar" },
-          "status": { "type": "string", "example": "FAILED" },
+          "id": {
+            "type": "string",
+            "example": "cmnf6jwup00091rcvo4qevr42"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "example": "1234erereress9"
+          },
+          "amount": {
+            "type": "number",
+            "example": 50
+          },
+          "currency": {
+            "type": "string",
+            "example": "USDC"
+          },
+          "description": {
+            "type": "string",
+            "example": "hack de pulsar"
+          },
+          "status": {
+            "type": "string",
+            "example": "FAILED"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -303,33 +517,80 @@
       "Pagination": {
         "type": "object",
         "properties": {
-          "total": { "type": "integer", "example": 2 },
-          "page": { "type": "integer", "example": 1 },
-          "limit": { "type": "integer", "example": 50 },
-          "totalPages": { "type": "integer", "example": 1 }
+          "total": {
+            "type": "integer",
+            "example": 2
+          },
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 50
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 1
+          }
         }
       },
       "EarningsResponse": {
-  "type": "object",
-  "properties": {
-    "currency": {
-      "type": "string",
-      "example": "USDC"
-    },
-    "totalEarned": {
-      "type": "number",
-      "example": 0.64
-    },
-    "totalCharges": {
-      "type": "integer",
-      "example": 4
-    }
-  }
-},
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "example": "USDC"
+          },
+          "totalEarned": {
+            "type": "number",
+            "example": 0.64
+          },
+          "totalCharges": {
+            "type": "integer",
+            "example": 4
+          }
+        }
+      },
+      "WithdrawRequest": {
+        "type": "object",
+        "required": [
+          "amount",
+          "walletAddress"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 2,
+            "description": "Amount to withdraw"
+          },
+          "walletAddress": {
+            "type": "string",
+            "example": "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr",
+            "description": "Destination wallet address"
+          }
+        }
+      },
+      "WithdrawResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "payoutId": {
+            "type": "string",
+            "example": "cmnpeptvy0005l404gq5zy7nx"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
-          "error": { "type": "string", "example": "invalid or disabled agent key" }
+          "error": {
+            "type": "string",
+            "example": "invalid or disabled agent key"
+          }
         }
       }
     }

@@ -63,7 +63,8 @@
                "api-reference/endpoint/create-charges",
                "api-reference/endpoint/get-charges",
                "api-reference/endpoint/get-charge-by-id",
-               "api-reference/endpoint/earnings"
+               "api-reference/endpoint/earnings",
+               "api-reference/endpoint/withdraw"
             ]
           }
         ]
