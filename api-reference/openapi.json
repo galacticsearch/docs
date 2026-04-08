@@ -195,7 +195,45 @@
           }
         }
       }
+    },
+
+    "/api/v1/agents/earnings": {
+  "get": {
+    "operationId": "getAgentEarnings",
+    "tags": ["Payments"],
+    "summary": "Get Agent Earnings",
+    "description": "Retrieve total earnings and charge statistics for an agent.",
+    "parameters": [
+      {
+        "name": "x-agent-key",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string" },
+        "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+        "description": "The unique API key of the agent."
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Agent earnings retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/EarningsResponse" }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "invalid or disabled agent key" }
+          }
+        }
+      }
     }
+  }
+}
   },
   "components": {
     "schemas": {

@@ -62,7 +62,8 @@
               "api-reference/endpoint/register-agent",
                "api-reference/endpoint/create-charges",
                "api-reference/endpoint/get-charges",
-               "api-reference/endpoint/get-charge-by-id"
+               "api-reference/endpoint/get-charge-by-id",
+               "api-reference/endpoint/earnings"
             ]
           }
         ]
