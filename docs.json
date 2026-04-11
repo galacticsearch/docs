@@ -86,14 +86,14 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/pulsar-logo-light.png",
+    "dark": "/logo/pulsar-logo-dark.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "hello@pulsarpay.io"
       }
     ],
     "primary": {
