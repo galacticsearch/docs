@@ -132,7 +132,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "ag_live_mkJUSITl3hqMt2CgilI2iYAe",
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
             "description": "The unique API key of the agent."
           },
           {
@@ -208,7 +208,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn"
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
           },
           {
             "name": "Idempotency-Key",
@@ -217,7 +218,9 @@
             "schema": {
               "type": "string"
             },
-            "example": "1234ererereer"
+            "example": "f77af2f2-7a83-4b60-88e1-2808a4d08779",
+            "description": "A unique key to ensure the request is processed only once."
+
           }
         ],
         "requestBody": {
@@ -317,7 +320,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "343434",
+            "example": "bd51263c-2b10-4b02-aadd-d3463778907d",
             "description": "A unique key to ensure the request is processed only once."
           }
         ],
@@ -489,7 +492,7 @@
           },
           "idempotencyKey": {
             "type": "string",
-            "example": "1234erereress9"
+            "example": "2207f602-c751-4b9b-98ae-456653bfe7b7"
           },
           "amount": {
             "type": "number",
@@ -561,8 +564,8 @@
         "properties": {
           "amount": {
             "type": "number",
-            "example": 2,
-            "description": "Amount to withdraw"
+            "example": 120,
+            "description": "Amount to withdraw in USDC (Solana network)"
           },
           "walletAddress": {
             "type": "string",
