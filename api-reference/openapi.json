@@ -55,7 +55,7 @@
                       "error": "Invalid website URL"
                     }
                   },
-                  "InvalidEmailFormat": {
+                  "invalidEmailFormat": {
                     "summary": "Invalid Email",
                     "value": {
                       "error": "Invalid email format"
