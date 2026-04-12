@@ -659,6 +659,7 @@
         "properties": {
           "error": {
             "type": "string",
+            "description": "Error message returned when a resource conflict occurs, typically due to a duplicate unique field such as the agent name.",
             "example": "Agent name already exists. Please choose a different one."
           }
         }
