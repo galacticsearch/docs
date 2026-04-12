@@ -64,7 +64,7 @@
             }
           },
           "409": {
-            "description": "Bad Request",
+            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
