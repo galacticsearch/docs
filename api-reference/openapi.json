@@ -174,7 +174,7 @@
           "Payments"
         ],
         "summary": "List Charges",
-        "description": "Retrieve a paginated list of charges associated with an agent.",
+        "description": "Retrieve a paginated list of all charges processed by the authenticated agent. Useful for reconciliation and auditing.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -183,8 +183,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description": "The unique API key of the agent."
+            "example": "ag_live_9Uhh0NzB7ZrdWQNSAPd1nsLn",
+            "description": "The unique API key of the agent used for authentication."
           },
           {
             "name": "page",
@@ -195,7 +195,7 @@
               "default": 1
             },
             "example": 1,
-            "description": "Page number for pagination. Defaults to 1."
+            "description": "The page number to retrieve. Used for navigating through large datasets."
           },
           {
             "name": "limit",
@@ -205,13 +205,12 @@
               "type": "integer",
               "default": 50
             },
-            "example": 50,
-            "description": "Number of items per page. Defaults to 50."
+            "description": "Maximum number of charge records to return per page."
           }
         ],
         "responses": {
           "200": {
-            "description": "A paginated list of charges.",
+            "description": "Successful retrieval of the charges list.",
             "content": {
               "application/json": {
                 "schema": {
@@ -221,7 +220,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Unauthorized - Invalid or missing agent key.",
             "content": {
               "application/json": {
                 "schema": {
@@ -238,10 +237,10 @@
       "post": {
         "operationId": "createCharge",
         "tags": [
-          "Payments"
+          ["Payments"]
         ],
         "summary": "Create a Charge",
-        "description": "Executes a charge against a user's credit balance.",
+        "description": "Debits a specified amount from a user's balance. This action requires authorization from the user via their unique key.",
         "parameters": [
           {
             "name": "x-user-key",
@@ -250,7 +249,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa"
+            "example": "Bearer pp_live_7698774c6d197b4b753c32536a8340f9fe6e881b961db37684f1447f246601fa",
+            "description": "The user's authorization token. This allows the agent to execute charges against the user's credits."
           },
           {
             "name": "x-agent-key",
@@ -260,7 +260,7 @@
               "type": "string"
             },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description": "The unique API key of the agent."
+            "description": "The unique API key of the agent executing the charge."
           },
           {
             "name": "Idempotency-Key",
@@ -270,7 +270,7 @@
               "type": "string"
             },
             "example": "f77af2f2-7a83-4b60-88e1-2808a4d08779",
-            "description": "A unique key to ensure the request is processed only once."
+            "description": "A unique, client-generated string to prevent duplicate charges in case of network retries. Recommended to use UUID v4."
           }
         ],
         "requestBody": {
@@ -293,7 +293,39 @@
                 }
               }
             }
-          }
+          },
+          "400": {
+  "description": "Bad Request - Logic or Configuration Error",
+  "content": {
+    "application/json": {
+      "schema": { "$ref": "#/components/schemas/Error" },
+      "examples": {
+        "currencyMismatch": {
+          "summary": "Currency Mismatch",
+          "value": { "error": "currency mismatch" }
+        },
+        "balanceNotFound": {
+          "summary": "Balance Not Found",
+          "value": { "error": "insufficient funds" }
+        }
+      }
+    }
+  }
+},
+"402": {
+  "description": "Payment Required - Insufficient Funds",
+  "content": {
+    "application/json": {
+      "schema": { "$ref": "#/components/schemas/Error" },
+      "examples": {
+        "insufficientFunds": {
+          "summary": "Insufficient Funds",
+          "value": { "error": "insufficient funds" }
+        }
+      }
+    }
+  }
+}
         }
       }
     },
