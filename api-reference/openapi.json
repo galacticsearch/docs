@@ -62,6 +62,23 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "nameAlreadyExists": {
+                    "value": {
+                      "error": "Agent name already exists. Please choose a different one."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
