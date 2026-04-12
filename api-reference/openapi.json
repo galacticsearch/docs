@@ -401,15 +401,20 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "openclaw-agent"
+            "example": "openclaw-agent",
+            "description": "A unique, human-readable name for your agent. This will be displayed in user authorization logs and transaction history."
           },
           "email": {
             "type": "string",
-            "example": "dev@openclaw.ai"
+            "example": "dev@openclaw.ai",
+            "format": "email",
+            "description": "Primary developer or organization email. This address will be used for manual account activation and critical security notifications."
           },
           "website": {
             "type": "string",
-            "example": "https://openclaw.ai"
+            "example": "https://openclaw.ai",
+            "format": "uri",
+            "description": "Official landing page or documentation URL for the agent's service. Used to verify the legitimacy of the project during onboarding."
           }
         }
       },
@@ -422,7 +427,8 @@
           },
           "apiKey": {
             "type": "string",
-            "example": "ag_live__xxxxxxxxxxxxxxxxxx"
+            "example": "ag_live__xxxxxxxxxxxxxxxxxx",
+            "description": "lorem ipsum"
           },
           "enabled": {
             "type": "boolean",
