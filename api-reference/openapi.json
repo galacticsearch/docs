@@ -423,16 +423,18 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation."
+            "example": "Your agent has been created. To start processing payments, please reach out to hello@pulsarpay.io for account activation.",
+            "description": "Onboarding instructions and next steps for the developer."
           },
           "apiKey": {
             "type": "string",
             "example": "ag_live__xxxxxxxxxxxxxxxxxx",
-            "description": "lorem ipsum"
+            "description": "The secret API key for the agent. This key is used in the 'X-agent-key' header to authenticate charges. It is only shown once upon registration."
           },
           "enabled": {
             "type": "boolean",
-            "example": false
+            "example": false,
+            "description": "Indicates if the agent is active and authorized to process payments. New agents are disabled by default until manual verification is completed."
           }
         }
       },
