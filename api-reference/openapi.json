@@ -40,6 +40,28 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "invalidWebsite": {
+                    "value": {
+                      "error": "Invalid website URL"
+                    }
+                  },
+                  "InvalidEmailFormat": {
+                    "value": {
+                      "error": "Invalid email format"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -220,7 +242,6 @@
             },
             "example": "f77af2f2-7a83-4b60-88e1-2808a4d08779",
             "description": "A unique key to ensure the request is processed only once."
-
           }
         ],
         "requestBody": {
