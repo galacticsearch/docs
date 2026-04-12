@@ -46,19 +46,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/RegisterBadRequestError"
                 },
                 "examples": {
                   "invalidWebsite": {
+                    "summary": "Invalid Website",
                     "value": {
                       "error": "Invalid website URL"
                     }
                   },
                   "InvalidEmailFormat": {
+                    "summary": "Invalid Email",
                     "value": {
                       "error": "Invalid email format"
                     }
-                  }
+                  },
+                  "missingFields": {
+                      "summary": "Missing Required Fields",
+                        "value": {
+                        "error": "Name, email, and website are required"
+                        }
+                    }
+
+
+
+
                 }
               }
             }
@@ -68,7 +80,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/RegisterConflictError"
                 },
                 "examples": {
                   "nameAlreadyExists": {
@@ -641,7 +653,26 @@
             "example": "invalid or disabled agent key"
           }
         }
+      },
+      "RegisterConflictError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Agent name already exists. Please choose a different one."
+          }
+        }
+      },
+        "RegisterBadRequestError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Detailed error message describing the validation failure."
+          }
+        }
       }
+      
     }
   }
 }
