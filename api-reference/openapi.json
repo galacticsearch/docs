@@ -62,15 +62,11 @@
                     }
                   },
                   "missingFields": {
-                      "summary": "Missing Required Fields",
-                        "value": {
-                        "error": "Name, email, and website are required"
-                        }
+                    "summary": "Missing Required Fields",
+                    "value": {
+                      "error": "Name, email, and website are required"
                     }
-
-
-
-
+                  }
                 }
               }
             }
@@ -295,37 +291,47 @@
             }
           },
           "400": {
-  "description": "Bad Request - Logic or Configuration Error",
-  "content": {
-    "application/json": {
-      "schema": { "$ref": "#/components/schemas/Error" },
-      "examples": {
-        "currencyMismatch": {
-          "summary": "Currency Mismatch",
-          "value": { "error": "currency mismatch" }
-        },
-        "balanceNotFound": {
-          "summary": "Balance Not Found",
-          "value": { "error": "insufficient funds" }
-        }
-      }
-    }
-  }
-},
-"402": {
-  "description": "Payment Required - Insufficient Funds",
-  "content": {
-    "application/json": {
-      "schema": { "$ref": "#/components/schemas/Error" },
-      "examples": {
-        "insufficientFunds": {
-          "summary": "Insufficient Funds",
-          "value": { "error": "insufficient funds" }
-        }
-      }
-    }
-  }
-}
+            "description": "Bad Request - Logic or Configuration Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "currencyMismatch": {
+                    "summary": "Currency Mismatch",
+                    "value": {
+                      "error": "currency mismatch"
+                    }
+                  },
+                  "balanceNotFound": {
+                    "summary": "Balance Not Found",
+                    "value": {
+                      "error": "insufficient funds"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Funds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "insufficientFunds": {
+                    "summary": "Insufficient Funds",
+                    "value": {
+                      "error": "insufficient funds"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -520,28 +526,34 @@
           }
         }
       },
-      "ChargeRequest": {
-        "type": "object",
-        "required": [
-          "amount",
-          "currency",
-          "description"
-        ],
-        "properties": {
-          "amount": {
-            "type": "number",
-            "example": 0.1
-          },
-          "currency": {
-            "type": "string",
-            "example": "USDC"
-          },
-          "description": {
-            "type": "string",
-            "example": "image icon 2px"
-          }
-        }
-      },
+  "ChargeRequest": {
+  "type": "object",
+  "required": [
+    "amount",
+    "currency",
+    "description"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "example": 0.1,
+      "description": "The amount to be charged to the user's balance. Represented in decimal units of the currency (e.g., 1.50 for 1.50 USDC)."
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["USDC", "USDT", "USD"],
+      "example": "USDC",
+      "description": "The three-letter ISO currency code or token symbol. Must match the user's available balance currency."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 255,
+      "example": "AI Model Inference - 500 tokens",
+      "description": "A brief description of the service or product provided. This will be visible to the user in their transaction history."
+    }
+  }
+},
       "ChargeResponse": {
         "type": "object",
         "properties": {
@@ -696,7 +708,7 @@
           }
         }
       },
-        "RegisterBadRequestError": {
+      "RegisterBadRequestError": {
         "type": "object",
         "properties": {
           "error": {
@@ -705,7 +717,6 @@
           }
         }
       }
-      
     }
   }
 }
