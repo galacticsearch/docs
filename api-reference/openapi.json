@@ -237,7 +237,7 @@
       "post": {
         "operationId": "createCharge",
         "tags": [
-          ["Payments"]
+          "Payments"
         ],
         "summary": "Create a Charge",
         "description": "Debits a specified amount from a user's balance. This action requires authorization from the user via their unique key.",
