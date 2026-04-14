@@ -389,7 +389,7 @@
           "Payments"
         ],
         "summary": "Withdraw Funds",
-        "description": "Withdraw funds from the agent's balance to a specified wallet address.",
+        "description": "Initiates a withdrawal of the agent's earned balance to an external Solana wallet. The funds are transferred in USDC.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -399,7 +399,7 @@
               "type": "string"
             },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description": "The unique API key of the agent."
+            "description": "The unique API key of the agent. Used to verify the balance ownership."
           },
           {
             "name": "Idempotency-Key",
@@ -409,7 +409,7 @@
               "type": "string"
             },
             "example": "bd51263c-2b10-4b02-aadd-d3463778907d",
-            "description": "A unique key to ensure the request is processed only once."
+            "description": "A unique UUID v4 string to ensure the withdrawal is only processed once, preventing double payouts on network retries."
           }
         ],
         "requestBody": {
@@ -424,7 +424,7 @@
         },
         "responses": {
           "200": {
-            "description": "Withdrawal processed successfully",
+            "description": "Withdrawal request accepted and processed.",
             "content": {
               "application/json": {
                 "schema": {
@@ -434,7 +434,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad Request - Validation or logic error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -442,11 +442,19 @@
                 },
                 "examples": {
                   "insufficientBalance": {
+                    "summary": "Insufficient Balance",
                     "value": {
                       "error": "insufficient balance"
                     }
                   },
+                  "invalidWallet": {
+                    "summary": "Invalid Wallet Address",
+                    "value": {
+                      "error": "invalid solana address"
+                    }
+                  },
                   "missingIdempotency": {
+                    "summary": "Missing Idempotency Key",
                     "value": {
                       "error": "missing Idempotency-key"
                     }
@@ -461,7 +469,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Unauthorized - Invalid agent credentials.",
             "content": {
               "application/json": {
                 "schema": {
@@ -683,13 +691,14 @@
         "properties": {
           "amount": {
             "type": "number",
-            "example": 120,
-            "description": "Amount to withdraw in USDC (Solana network)"
+            "minimum": 1,
+            "example": 100,
+            "description": "The amount of USDC to withdraw. Must be greater than or equal to the minimum withdrawal limit (1.00 USDC)."
           },
           "walletAddress": {
             "type": "string",
             "example": "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr",
-            "description": "Destination wallet address"
+            "description": "The destination Solana (SPL) wallet address."
           }
         }
       },
@@ -698,11 +707,18 @@
         "properties": {
           "success": {
             "type": "boolean",
-            "example": true
+            "example": true,
+            "description": "Confirms the withdrawal was successfully broadcasted to the network."
           },
           "payoutId": {
             "type": "string",
-            "example": "cmnpeptvy0005l404gq5zy7nx"
+            "example": "cmnpeptvy0005l404gq5zy7nx",
+            "description": "Internal tracking ID for the withdrawal transaction."
+          },
+          "signature": {
+            "type": "string",
+            "example": "5K8Y...j2XW",
+            "description": "The Solana transaction signature (TXID). Use this to track the status on Solscan."
           }
         }
       },
