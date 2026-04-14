@@ -619,7 +619,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["PENDING", "SUCCESS", "FAILED", "EXPIRED"],
+            "enum": [
+              "PENDING",
+              "SUCCESS",
+              "FAILED",
+              "EXPIRED"
+            ],
             "example": "FAILED",
             "description": "The current state of the charge in its lifecycle."
           },
