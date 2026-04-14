@@ -295,7 +295,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorCharge4XX"
                 },
                 "examples": {
                   "currencyMismatch": {
@@ -526,34 +526,38 @@
           }
         }
       },
-  "ChargeRequest": {
-  "type": "object",
-  "required": [
-    "amount",
-    "currency",
-    "description"
-  ],
-  "properties": {
-    "amount": {
-      "type": "number",
-      "format": "float",
-      "example": 0.1,
-      "description": "The amount to be charged to the user's balance. Represented in decimal units of the currency (e.g., 1.50 for 1.50 USDC)."
-    },
-    "currency": {
-      "type": "string",
-      "enum": ["USDC", "USDT", "USD"],
-      "example": "USDC",
-      "description": "The three-letter ISO currency code or token symbol. Must match the user's available balance currency."
-    },
-    "description": {
-      "type": "string",
-      "maxLength": 255,
-      "example": "AI Model Inference - 500 tokens",
-      "description": "A brief description of the service or product provided. This will be visible to the user in their transaction history."
-    }
-  }
-},
+      "ChargeRequest": {
+        "type": "object",
+        "required": [
+          "amount",
+          "currency",
+          "description"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "example": 0.1,
+            "description": "The amount to be charged to the user's balance. Represented in decimal units of the currency (e.g., 1.50 for 1.50 USDC)."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USDC",
+              "USDT",
+              "USD"
+            ],
+            "example": "USDC",
+            "description": "The three-letter ISO currency code or token symbol. Must match the user's available balance currency."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "example": "AI Model Inference - 500 tokens",
+            "description": "A brief description of the service or product provided. This will be visible to the user in their transaction history."
+          }
+        }
+      },
       "ChargeResponse": {
         "type": "object",
         "properties": {
@@ -695,6 +699,15 @@
           "error": {
             "type": "string",
             "example": "invalid or disabled agent key"
+          }
+        }
+      },
+       "ErrorCharge4XX": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "insufficient funds"
           }
         }
       },
