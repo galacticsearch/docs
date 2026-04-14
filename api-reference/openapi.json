@@ -101,7 +101,7 @@
             "type": "string"
           },
           "example": "cmn3tney00001l104hudm7fgy",
-          "description": "The unique identifier of the charge."
+          "description": "The unique Cuids-based identifier for the charge. This is the `chargeId` returned during the creation process."
         }
       ],
       "get": {
@@ -109,8 +109,8 @@
         "tags": [
           "Payments"
         ],
-        "summary": "Get Charge by ID",
-        "description": "Retrieve a specific charge by its ID.",
+        "summary": "Retrieve Charge Details",
+        "description": "Returns the full object of a specific charge. Use this to poll the status of a transaction or to retrieve metadata for reconciliation.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -120,12 +120,12 @@
               "type": "string"
             },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description": "The unique API key of the agent."
+            "description": "The secret API key of the agent. This key ensures that only the agent who created the charge (or has administrative access) can view its details."
           }
         ],
         "responses": {
           "200": {
-            "description": "Charge retrieved successfully",
+            "description": "Charge details retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -135,7 +135,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Unauthorized - The provided agent key is invalid, expired, or not authorized to access this specific charge.",
             "content": {
               "application/json": {
                 "schema": {
@@ -148,11 +148,11 @@
             }
           },
           "404": {
-            "description": "Charge not found",
+            "description": "Not Found - No charge was found with the provided ID, or it does not belong to the authenticated agent.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorCharge404"
                 },
                 "example": {
                   "error": "charge not found"
@@ -702,7 +702,16 @@
           }
         }
       },
-       "ErrorCharge4XX": {
+      "ErrorCharge404": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "charge not found"
+          }
+        }
+      },
+      "ErrorCharge4XX": {
         "type": "object",
         "properties": {
           "error": {
