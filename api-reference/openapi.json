@@ -594,32 +594,40 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "cmnf6jwup00091rcvo4qevr42"
+            "example": "cmnf6jwup00091rcvo4qevr42",
+            "description": "Unique identifier for the charge record."
           },
           "idempotencyKey": {
             "type": "string",
-            "example": "2207f602-c751-4b9b-98ae-456653bfe7b7"
+            "example": "2207f602-c751-4b9b-98ae-456653bfe7b7",
+            "description": "The unique string provided during creation to prevent duplicate processing."
           },
           "amount": {
             "type": "number",
-            "example": 50
+            "example": 50,
+            "description": "The transaction amount in decimal format (e.g., 50.00)."
           },
           "currency": {
             "type": "string",
-            "example": "USDC"
+            "example": "USDC",
+            "description": "The token symbol used for the transaction (Solana network)."
           },
           "description": {
             "type": "string",
-            "example": "hack de pulsar"
+            "example": "AI Inference Service",
+            "description": "The purpose of the charge as defined by the agent."
           },
           "status": {
             "type": "string",
-            "example": "FAILED"
+            "enum": ["PENDING", "SUCCESS", "FAILED", "EXPIRED"],
+            "example": "FAILED",
+            "description": "The current state of the charge in its lifecycle."
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "example": "2026-03-31T22:20:03.217Z"
+            "example": "2026-03-31T22:20:03.217Z",
+            "description": "Timestamp when the charge was first initialized."
           }
         }
       },
