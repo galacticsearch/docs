@@ -342,7 +342,7 @@
           "Payments"
         ],
         "summary": "Get Agent Earnings",
-        "description": "Retrieve total earnings and charge statistics for an agent.",
+        "description": "Returns a summary of the agent's financial performance, including total accumulated earnings available for withdrawal and the count of successful charge operations.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -352,12 +352,12 @@
               "type": "string"
             },
             "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
-            "description": "The unique API key of the agent."
+            "description": "The unique API key of the agent. Used to identify the account and fetch its specific earning statistics."
           }
         ],
         "responses": {
           "200": {
-            "description": "Agent earnings retrieved successfully",
+            "description": "Agent earnings and statistics retrieved successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -367,7 +367,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Unauthorized - The agent key is invalid, missing, or the account has been disabled by PulsarPay administration.",
             "content": {
               "application/json": {
                 "schema": {
@@ -670,15 +670,18 @@
         "properties": {
           "currency": {
             "type": "string",
-            "example": "USDC"
+            "example": "USDC",
+            "description": "The currency symbol in which the earnings are denominated (e.g., USDC on Solana)."
           },
           "totalEarned": {
             "type": "number",
-            "example": 0.64
+            "example": 1550.75,
+            "description": "The net amount earned by the agent, after any applicable platform fees. This represents the balance available for withdrawal."
           },
           "totalCharges": {
             "type": "integer",
-            "example": 4
+            "example": 142,
+            "description": "The total number of successful payment transactions processed by this agent."
           }
         }
       },
