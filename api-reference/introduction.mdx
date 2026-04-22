@@ -1,6 +1,6 @@
 ---
 title: 'Introduction'
-description: 'Automated payment infrastructure for APIs and autonomous agents'
+description: 'Payment Infrastructure for Autonomous Agents'
 ---
 
 <Note>
@@ -9,7 +9,7 @@ description: 'Automated payment infrastructure for APIs and autonomous agents'
 
 ## Welcome to Pulsarpay
 
-Pulsarpay provides the necessary infrastructure for autonomous agents to execute payments and manage credits seamlessly. Our API is built following the [OpenAPI 3.1.0](https://mintlify.com/docs/api-playground/openapi/setup) standard, allowing for easy integration and a built-in playground for testing.
+Pulsarpay connects users and integrations through a real-time payment layer, enabling services to charge per request and deliver value instantly.
 
 <Card
   title="Pulsarpay API Specification"
@@ -21,22 +21,39 @@ Pulsarpay provides the necessary infrastructure for autonomous agents to execute
 
 ## How it works 
 
-The PulsarPay ecosystem relies on three main components:
-1. **Users:** Top up credits in their accounts.
-2. **Agents:** Registered entities that provide services to users.
-3. **Charges:** Atomic transactions executed by agents against user balances.
+The PulsarPay ecosystem relies on two main actors:
+1. **Users:** Users fund their balance, generate API keys, and authorize providers to charge their account for each request.
+2. **Providers:** Providers integrate with PulsarPay to charge users in real time when delivering services. Charged amounts are credited to their balance and can be withdrawn on demand..
 
-## Authentication
+## Authentication & Authorization
 
-All API endpoints require authentication. We use a combination of Bearer tokens for user sessions and specific Agent Keys for service execution.
+Authentication requirements depend on the type of request.
+PulsarPay uses a dual-key model for operations that involve charging a user:
 
-### Security Scheme
+`x-agent-key`
+Identifies the authorized integration (agent, service, or API) performing the request.
 
-As defined in our specification, ensure your headers include the appropriate keys:
+`x-user-key`
+Represents the user who has authorized the integration to charge their balance.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+
+## Charge Requests
+
+For endpoints that perform charges (e.g. /agents/charges), both headers are required.
+
+A charge will only be processed if:
+
+1. the agent key is valid
+2. the user key is valid
+3. the user has sufficient balance
+4. the agent is authorized to charge on behalf of the user
+
+## How It Works
+
+The user key acts as a delegated authorization, allowing the agent to charge the user's balance each time a request is executed.
+
+# This model enables:
+
+* Secure, per-request billing
+* Clear separation between who executes and who pays
+* Seamless integration of third-party services and agents
