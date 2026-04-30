@@ -1,61 +1,76 @@
 ---
-title: 'Introduction'
-description: 'Payment Infrastructure for Autonomous Agents'
+title: "API reference"
+description: "Real-time payment infrastructure for autonomous agents and services."
 ---
 
 <Note>
-  To activate your agent account after registration, please contact hello@pulsarpay.io.
+  To activate your agent account after registration, contact [hello@pulsarpay.io](mailto:hello@pulsarpay.io).
 </Note>
 
-## Welcome to Pulsarpay
+## Base URL
 
-Pulsarpay connects users and integrations through a real-time payment layer, enabling services to charge per request and deliver value instantly.
+All API requests are made to:
 
-<Card
-  title="Pulsarpay API Specification"
-  icon="bolt"
-  href="https://github.com/tu-usuario/pulsarpay/blob/main/api-reference/openapi.json"
->
-  View and download our full OpenAPI specification file
-</Card>
+```
+https://www.pulsarpay.io
+```
 
-## Ecosystem 
+## Authentication
 
-The Pulsarpay ecosystem relies on two main actors:
-1. **Users:** Users fund their balance, generate API keys, and authorize providers to charge their account for each request.
-2. **Providers:** Providers integrate with Pulsarpay to charge users in real time when delivering services. Charged amounts are credited to their balance and can be withdrawn on demand..
+PulsarPay uses a dual-key model. The key required depends on the endpoint.
 
-## Authentication & Authorization
+<CardGroup cols={2}>
+  <Card title="x-agent-key" icon="robot">
+    Identifies the agent or service performing the request. Obtained at registration.
+  </Card>
+  <Card title="x-user-key" icon="user">
+    Represents the user who has authorized the agent to charge their balance.
+  </Card>
+</CardGroup>
 
-Authentication requirements depend on the type of request.
-Pulsarpay uses a dual-key model for operations that involve charging a user:
+Endpoints that perform charges require **both** headers. Read-only endpoints (earnings, charge listing) only require `x-agent-key`.
 
-`x-agent-key`
-Identifies the authorized integration (agent, service, or API) performing the request.
+## Charge authorization
 
-`x-user-key`
-Represents the user who has authorized the integration to charge their balance.
+A charge is processed only when all four conditions are met:
 
-
-## Charge Requests
-
-For endpoints that perform charges (e.g. /agents/charges), both headers are required.
-
-A charge will only be processed if:
-
-1. The agent key is valid
-2. The user key is valid
+1. `x-agent-key` is valid
+2. `x-user-key` is valid
 3. The user has sufficient balance
 4. The agent is authorized to charge on behalf of the user
 
-## How It Works
+The user key acts as delegated authorization — the user explicitly provides it to grant the agent permission to charge per request. This enables secure, per-request billing with a clear separation between who executes and who pays.
 
-The **user key acts as a delegated authorization**, allowing the agent to charge the user's balance each time a request is executed.
+## Ecosystem
 
-This is possible because the user explicitly provides an API key to the service or integration, granting permission to perform charges on their behalf.
+<CardGroup cols={2}>
+  <Card title="Users" icon="user">
+    Fund their balance, generate API keys, and authorize agents to charge their account per request.
+  </Card>
+  <Card title="Agents" icon="robot">
+    Integrate with PulsarPay to charge users in real time. Earnings accumulate in their balance and can be withdrawn on demand.
+  </Card>
+</CardGroup>
 
-This model enables:
+## Endpoints
 
-* Secure, per-request billing
-* Clear separation between who executes and who pays
-* Seamless integration of third-party services and agents
+<CardGroup cols={2}>
+  <Card title="Register agent" icon="id-card" href="/api-reference/endpoint/register-agent">
+    Create a new agent and receive your API key.
+  </Card>
+  <Card title="Create charge" icon="bolt" href="/api-reference/endpoint/create-charges">
+    Debit a user's balance for a service request.
+  </Card>
+  <Card title="Get charge" icon="magnifying-glass" href="/api-reference/endpoint/get-charge-by-id">
+    Retrieve status and details for a specific charge.
+  </Card>
+  <Card title="List charges" icon="list" href="/api-reference/endpoint/get-charges">
+    Paginated charge history for auditing and reconciliation.
+  </Card>
+  <Card title="Earnings" icon="chart-line" href="/api-reference/endpoint/earnings">
+    View net earnings and total successful charges.
+  </Card>
+  <Card title="Withdraw" icon="wallet" href="/api-reference/endpoint/withdraw">
+    Transfer USDC earnings to a Solana wallet.
+  </Card>
+</CardGroup>
