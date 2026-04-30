@@ -1,12 +1,12 @@
 ---
 title: "Quickstart"
-description: "Integrate PulsarPay into your API or autonomous agent in minutes."
+description: "Integrate Pulsarpay into your API or autonomous agent in minutes."
 ---
 
 ## Prerequisites
 
 - Node.js 18 or higher
-- A PulsarPay agent key (`ag_live_...`)
+- A Pulsarpay agent key (`ag_live_...`)
 
 <Note>
   Don't have an agent key yet? [Register your agent](#register-an-agent) first — the key is returned only once at registration.
@@ -17,15 +17,15 @@ description: "Integrate PulsarPay into your API or autonomous agent in minutes."
 <CodeGroup>
 
 ```bash npm
-npm install pulsarpay-sdk
+npm install Pulsarpay-sdk
 ```
 
 ```bash pnpm
-pnpm add pulsarpay-sdk
+pnpm add Pulsarpay-sdk
 ```
 
 ```bash yarn
-yarn add pulsarpay-sdk
+yarn add Pulsarpay-sdk
 ```
 
 </CodeGroup>
@@ -33,7 +33,7 @@ yarn add pulsarpay-sdk
 ## Initialize the client
 
 ```typescript
-import { PulsarpayClient } from "pulsarpay-sdk";
+import { PulsarpayClient } from "Pulsarpay-sdk";
 
 const client = new PulsarpayClient({
   agentKey: process.env.PULSARPAY_AGENT_KEY!,  //no required for register agent
@@ -165,7 +165,7 @@ import {
   PulsarpayConflictError,
   PulsarpayNetworkError,
   PulsarpayError,
-} from "pulsarpay-sdk";
+} from "Pulsarpay-sdk";
 
 try {
   await client.payments.createCharge(data, options);
