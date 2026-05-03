@@ -463,6 +463,12 @@
                     "value": {
                       "error": "invalid json body"
                     }
+                  },
+                  "payoutAlreadyInProgress": {
+                    "summary": "Payout Already In Progress",
+                    "value": {
+                      "error": "payout already in progress"
+                    }
                   }
                 }
               }
