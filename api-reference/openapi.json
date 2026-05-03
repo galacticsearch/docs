@@ -715,13 +715,49 @@
           },
           "payoutId": {
             "type": "string",
-            "example": "cmnpeptvy0005l404gq5zy7nx",
+            "example": "cmoqbpavp00071ry1t2iyr1hw",
             "description": "Internal tracking ID for the withdrawal transaction."
           },
-          "signature": {
-            "type": "string",
-            "example": "5K8Y...j2XW",
-            "description": "The Solana transaction signature (TXID). Use this to track the status on Solscan."
+          "breakdown": {
+            "type": "object",
+            "description": "Detailed breakdown of the payout amounts and destination.",
+            "properties": {
+              "grossAmount": {
+                "type": "number",
+                "example": 100,
+                "description": "The total amount requested for withdrawal before fees."
+              },
+              "platformFeeRate": {
+                "type": "string",
+                "example": "3%",
+                "description": "The platform fee percentage applied to the withdrawal."
+              },
+              "platformFee": {
+                "type": "number",
+                "example": 3,
+                "description": "The absolute fee amount deducted by the platform."
+              },
+              "netAmount": {
+                "type": "number",
+                "example": 97,
+                "description": "The final amount transferred to the wallet after deducting the platform fee."
+              },
+              "currency": {
+                "type": "string",
+                "example": "USDC",
+                "description": "The token used for the withdrawal."
+              },
+              "walletAddress": {
+                "type": "string",
+                "example": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX",
+                "description": "The destination Solana wallet address."
+              },
+              "network": {
+                "type": "string",
+                "example": "SOL",
+                "description": "The blockchain network used for the transfer."
+              }
+            }
           }
         }
       },
