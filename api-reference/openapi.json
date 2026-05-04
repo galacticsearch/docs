@@ -383,6 +383,116 @@
       }
     },
     "/api/v1/agents/withdraw": {
+      "get": {
+        "operationId": "listWithdrawals",
+        "tags": [
+          "Payments"
+        ],
+        "summary": "List Withdrawals",
+        "description": "Returns all withdrawal requests made by the authenticated agent. Pass the optional `payoutId` query parameter to retrieve a single specific payout.",
+        "parameters": [
+          {
+            "name": "x-agent-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ag_live_9Uhh0NzB7ZrBWQN6ePd1nsLn",
+            "description": "The unique API key of the agent."
+          },
+          {
+            "name": "payoutId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "cmoqbpavp00071ry1t2iyr1hw",
+            "description": "When provided, filters the result to a single payout matching this ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Withdrawal records retrieved successfully. Returns a list when no `payoutId` is provided, or a single object when `payoutId` is specified.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PayoutListResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayoutSingleResponse"
+                    }
+                  ]
+                },
+                "examples": {
+                  "listAll": {
+                    "summary": "List all withdrawals",
+                    "value": {
+                      "payouts": [
+                        {
+                          "id": "cmoqbpavp00071ry1t2iyr1hw",
+                          "agentId": "cmoon78e7000g1rvv9ju59ame",
+                          "currency": "USDC",
+                          "status": "COMPLETED",
+                          "destination": {
+                            "network": "SOL",
+                            "walletAddress": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX"
+                          },
+                          "externalId": "34343477",
+                          "txHash": null,
+                          "createdAt": "2026-05-03T22:09:23.027Z",
+                          "processedAt": null,
+                          "amount": 97,
+                          "fee": 3,
+                          "platformFeeRate": "3%"
+                        }
+                      ]
+                    }
+                  },
+                  "singlePayout": {
+                    "summary": "Single withdrawal by payoutId",
+                    "value": {
+                      "payout": {
+                        "id": "cmoqbpavp00071ry1t2iyr1hw",
+                        "agentId": "cmoon78e7000g1rvv9ju59ame",
+                        "currency": "USDC",
+                        "status": "PENDING",
+                        "destination": {
+                          "network": "SOL",
+                          "walletAddress": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX"
+                        },
+                        "externalId": "34343477",
+                        "txHash": null,
+                        "createdAt": "2026-05-03T22:09:23.027Z",
+                        "processedAt": null,
+                        "amount": 97,
+                        "fee": 3,
+                        "platformFeeRate": "3%"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid agent credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "invalid agent"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "operationId": "withdrawAgentBalance",
         "tags": [
@@ -769,6 +879,107 @@
                 "description": "The blockchain network used for the transfer."
               }
             }
+          }
+        }
+      },
+      "PayoutItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cmoqbpavp00071ry1t2iyr1hw",
+            "description": "Unique identifier for the payout record."
+          },
+          "agentId": {
+            "type": "string",
+            "example": "cmoon78e7000g1rvv9ju59ame",
+            "description": "The ID of the agent who initiated the withdrawal."
+          },
+          "currency": {
+            "type": "string",
+            "example": "USDC",
+            "description": "The token used for the withdrawal."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "COMPLETED", "FAILED"],
+            "example": "COMPLETED",
+            "description": "Current state of the withdrawal."
+          },
+          "destination": {
+            "type": "object",
+            "properties": {
+              "network": {
+                "type": "string",
+                "example": "SOL",
+                "description": "The blockchain network used for the transfer."
+              },
+              "walletAddress": {
+                "type": "string",
+                "example": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX",
+                "description": "The destination Solana wallet address."
+              }
+            }
+          },
+          "externalId": {
+            "type": "string",
+            "example": "34343477",
+            "description": "External reference ID for the payout."
+          },
+          "txHash": {
+            "type": "string",
+            "nullable": true,
+            "example": null,
+            "description": "The on-chain transaction hash. Null until the payout is processed."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-05-03T22:09:23.027Z",
+            "description": "Timestamp when the withdrawal was initiated."
+          },
+          "processedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null,
+            "description": "Timestamp when the withdrawal was processed. Null if still pending."
+          },
+          "amount": {
+            "type": "number",
+            "example": 97,
+            "description": "The net amount transferred after deducting the platform fee."
+          },
+          "fee": {
+            "type": "number",
+            "example": 3,
+            "description": "The platform fee deducted from the gross withdrawal amount."
+          },
+          "platformFeeRate": {
+            "type": "string",
+            "example": "3%",
+            "description": "The fee rate applied to this withdrawal."
+          }
+        }
+      },
+      "PayoutListResponse": {
+        "type": "object",
+        "properties": {
+          "payouts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PayoutItem"
+            },
+            "description": "List of all withdrawal records for the authenticated agent."
+          }
+        }
+      },
+      "PayoutSingleResponse": {
+        "type": "object",
+        "properties": {
+          "payout": {
+            "$ref": "#/components/schemas/PayoutItem",
+            "description": "The withdrawal record matching the provided payoutId."
           }
         }
       },
