@@ -688,6 +688,11 @@
             "type": "integer",
             "example": 142,
             "description": "The total number of successful payment transactions processed by this agent."
+          },
+          "currentBalance": {
+            "type": "number",
+            "example": 18.889,
+            "description": "The agent's current balance pending withdrawal — accumulated earnings that have not yet been paid out."
           }
         }
       },
