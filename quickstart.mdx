@@ -144,16 +144,27 @@ for (const entry of earnings) {
 
 <Step title="Withdraw funds">
 
-Transfer earned USDC to a Solana wallet. Minimum withdrawal is 1.00 USDC.
+Withdraw to a Solana wallet (USDC) or a PayPal account (USD). Minimum withdrawal is 1.00. A 3% platform fee is deducted from the gross amount.
 
 ```typescript
+// USD → PayPal
 const payout = await client.payments.withdraw({
-  amount: 100,
+  amount: 10.00,
+  currency: "USD",
+  walletAddress: "your-paypal-id@example.com",
+});
+
+// USDC → Solana wallet
+const payout = await client.payments.withdraw({
+  amount: 10.00,
+  currency: "USDC",
   walletAddress: "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr",
 });
 
-console.log(payout.success);  // true
-console.log(payout.payoutId); // cmnpeptvy0005l404gq5zy7nx
+console.log(payout.success);                  // true
+console.log(payout.payoutId);                 // cmnpeptvy0005l404gq5zy7nx
+console.log(payout.breakdown.netAmount);      // 9.70
+console.log(payout.breakdown.network);        // "PAYPAL" | "SOL"
 ```
 
 </Step>
@@ -218,7 +229,7 @@ try {
 </Card>
 
 <Card title="Withdraw" icon="wallet" href="/api-reference/endpoint/withdraw">
-  Transfer USDC to your Solana wallet.
+  Transfer USDC to a Solana wallet or USD to a PayPal account.
 </Card>
 
 </CardGroup>

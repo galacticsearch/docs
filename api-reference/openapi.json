@@ -499,7 +499,7 @@
           "Payments"
         ],
         "summary": "Withdraw Funds",
-        "description": "Initiates a withdrawal of the agent's earned balance to an external Solana wallet. The funds are transferred in USDC.",
+        "description": "Initiates a withdrawal of the agent's earned balance. Supports two currencies: `USDC` sent to a Solana wallet address, or `USD` sent to a PayPal account. A 3% platform fee is deducted from the gross amount.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -528,6 +528,24 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/WithdrawRequest"
+              },
+              "examples": {
+                "usdPaypal": {
+                  "summary": "USD withdrawal to PayPal",
+                  "value": {
+                    "amount": 10.00,
+                    "currency": "USD",
+                    "walletAddress": "your-paypal-id@example.com"
+                  }
+                },
+                "usdcSolana": {
+                  "summary": "USDC withdrawal to Solana wallet",
+                  "value": {
+                    "amount": 10.00,
+                    "currency": "USDC",
+                    "walletAddress": "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr"
+                  }
+                }
               }
             }
           }
@@ -539,6 +557,40 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WithdrawResponse"
+                },
+                "examples": {
+                  "usdPaypal": {
+                    "summary": "USD withdrawal to PayPal",
+                    "value": {
+                      "success": true,
+                      "payoutId": "cmoqbpavp00071ry1t2iyr1hw",
+                      "breakdown": {
+                        "grossAmount": 10.00,
+                        "platformFeeRate": "3%",
+                        "platformFee": 0.30,
+                        "netAmount": 9.70,
+                        "currency": "USD",
+                        "walletAddress": "your-paypal-id@example.com",
+                        "network": "PAYPAL"
+                      }
+                    }
+                  },
+                  "usdcSolana": {
+                    "summary": "USDC withdrawal to Solana wallet",
+                    "value": {
+                      "success": true,
+                      "payoutId": "cmoqbpavp00071ry1t2iyr1hw",
+                      "breakdown": {
+                        "grossAmount": 10.00,
+                        "platformFeeRate": "3%",
+                        "platformFee": 0.30,
+                        "netAmount": 9.70,
+                        "currency": "USDC",
+                        "walletAddress": "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr",
+                        "network": "SOL"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -823,19 +875,26 @@
         "type": "object",
         "required": [
           "amount",
+          "currency",
           "walletAddress"
         ],
         "properties": {
           "amount": {
             "type": "number",
             "minimum": 1,
-            "example": 100,
-            "description": "The amount of USDC to withdraw. Must be greater than or equal to the minimum withdrawal limit (1.00 USDC)."
+            "example": 10.00,
+            "description": "The amount to withdraw in the specified currency. Minimum is 1.00."
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["USDC", "USD"],
+            "example": "USD",
+            "description": "The currency to withdraw. Use `USDC` to send to a Solana wallet, or `USD` to send to a PayPal account."
           },
           "walletAddress": {
             "type": "string",
-            "example": "8ixbQzsFc9FkxegG7aumq3h1XCGDkRSN23xeLTnZiyHr",
-            "description": "The destination Solana (SPL) wallet address."
+            "example": "your-paypal-id@example.com",
+            "description": "Destination address. For `USDC` withdrawals, provide a Solana wallet address. For `USD` withdrawals, provide a PayPal ID or email."
           }
         }
       },
@@ -883,13 +942,14 @@
               },
               "walletAddress": {
                 "type": "string",
-                "example": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX",
-                "description": "The destination Solana wallet address."
+                "example": "your-paypal-id@example.com",
+                "description": "The destination address — a Solana wallet address or a PayPal ID/email."
               },
               "network": {
                 "type": "string",
-                "example": "SOL",
-                "description": "The blockchain network used for the transfer."
+                "enum": ["SOL", "PAYPAL"],
+                "example": "PAYPAL",
+                "description": "The destination network. `SOL` for Solana wallet withdrawals (USDC), `PAYPAL` for USD withdrawals."
               }
             }
           }
@@ -924,13 +984,14 @@
             "properties": {
               "network": {
                 "type": "string",
+                "enum": ["SOL", "PAYPAL"],
                 "example": "SOL",
-                "description": "The blockchain network used for the transfer."
+                "description": "The destination network. `SOL` for Solana (USDC), `PAYPAL` for USD."
               },
               "walletAddress": {
                 "type": "string",
                 "example": "7AEaiRXEiwRne29zXjadxMRznarugZ1K3PmuAqeWvuFX",
-                "description": "The destination Solana wallet address."
+                "description": "The destination address — a Solana wallet address or a PayPal ID/email."
               }
             }
           },
