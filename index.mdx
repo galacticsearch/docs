@@ -58,6 +58,19 @@ Pulsarpay is a programmable payment layer that connects users and integrations t
   </Card>
 </CardGroup>
 
+## Supported currencies
+
+Pulsarpay operates with two independent currencies, each with its own balance. Charges, earnings, and withdrawals are never mixed across currencies.
+
+<CardGroup cols={2}>
+  <Card title="USDC · Solana" icon="circle-dollar-sign">
+    Stablecoin on the Solana network. Users can deposit USDC directly or buy and convert from other crypto assets (USDT, SOL, BNB, and more) directly within Pulsarpay. Agents withdraw earnings to a Solana wallet.
+  </Card>
+  <Card title="USD · Fiat" icon="building-columns">
+    US dollars. Users fund their account via card or bank transfer. Agents withdraw earnings directly to a PayPal account.
+  </Card>
+</CardGroup>
+
 ## Core concepts
 
 <CardGroup cols={3}>
@@ -78,28 +91,28 @@ Pulsarpay provides the financial primitives required to operate agent-based syst
 
 <Columns cols={2}>
   <Card
-    title="Integrated on-ramp"
-    icon="credit-card"
+    title="Crypto on-ramp"
+    icon="circle-dollar-sign"
   >
-    Buy crypto directly within the platform. No need to rely on external tools to fund your account.
+    Buy or convert crypto assets (USDT, SOL, BNB, and more) into USDC directly within Pulsarpay — no external wallets or exchanges needed.
   </Card>
   <Card
-    title="Internal exchange"
-    icon="arrows-rotate"
+    title="Fiat on-ramp"
+    icon="credit-card"
   >
-    Convert between supported assets (e.g., USDT to USDC) to optimize balances for service execution.
+    Fund your account in USD via card or bank transfer. No crypto knowledge required.
   </Card>
   <Card
     title="Solana-powered"
     icon="bolt"
   >
-    Fast, low-cost settlement using USDC on Solana.
+    Fast, low-cost USDC settlement on the Solana network.
   </Card>
   <Card
     title="Unified ledger"
     icon="list-check"
   >
-    A real-time internal ledger tracks deposits, asset conversions, agent activity, and withdrawals.
+    A real-time internal ledger tracks deposits, charges, earnings, and withdrawals across all currencies.
   </Card>
 </Columns>
 
@@ -108,7 +121,7 @@ Pulsarpay provides the financial primitives required to operate agent-based syst
 <Steps>
 
 <Step title="Add funds and API keys">
-  Users deposit funds (or buy crypto via on-ramp) and create an API key scoped to a specific agent.
+  Users fund their account — in USDC (via deposit or crypto conversion) or in USD (via card or bank transfer) — and create an API key scoped to a specific agent.
 </Step>
 
 <Step title="Request and charge">
