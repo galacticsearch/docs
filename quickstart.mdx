@@ -73,11 +73,13 @@ console.log(result.enabled);  // false — contact hello@pulsarpay.io for activa
 
 Debit a user's balance. An idempotency key is auto-generated if you don't provide one.
 
+Each currency has a separate balance. The charge is deducted from the user's balance in the specified currency — the user must have sufficient funds in that currency.
+
 ```typescript
 const charge = await client.payments.createCharge(
   {
     amount: 0.5,
-    currency: "USDC",
+    currency: "USD",  // "USD" or "USDC"
     description: "AI Inference - 1000 tokens",
   },
   {
@@ -101,7 +103,7 @@ const charge = await client.payments.getCharge("cmn3tney00001l104hudm7fgy");
 
 console.log(charge.status);   // "PENDING" | "SUCCESS" | "FAILED"
 console.log(charge.amount);   // 0.5
-console.log(charge.currency); // "USDC"
+console.log(charge.currency); // "USD" | "USDC"
 ```
 
 </Step>
@@ -125,11 +127,17 @@ for (const charge of result.data) {
 
 <Step title="View earnings">
 
-```typescript
-const earnings = await client.payments.getEarnings();
+Each currency has its own independent balance. The response returns one entry per currency.
 
-console.log(`${earnings.totalEarned} ${earnings.currency}`); // "1550.75 USDC"
-console.log(`Total charges: ${earnings.totalCharges}`);       // "142"
+```typescript
+const { earnings } = await client.payments.getEarnings();
+
+for (const entry of earnings) {
+  console.log(entry.currency);       // "USD" | "USDC"
+  console.log(entry.totalEarned);    // 8.5
+  console.log(entry.totalCharges);   // 3
+  console.log(entry.currentBalance); // 8.5
+}
 ```
 
 </Step>

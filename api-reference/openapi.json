@@ -342,7 +342,7 @@
           "Payments"
         ],
         "summary": "Get Agent Earnings",
-        "description": "Returns a summary of the agent's financial performance, including total accumulated earnings available for withdrawal and the count of successful charge operations.",
+        "description": "Returns a summary of the agent's earnings broken down by currency. Each supported currency (USDC and USD) has an independent balance. The response includes total earned, total charges, and current balance available for withdrawal per currency.",
         "parameters": [
           {
             "name": "x-agent-key",
@@ -662,17 +662,16 @@
             "type": "number",
             "format": "float",
             "example": 0.1,
-            "description": "The amount to be charged to the user's balance. Represented in decimal units of the currency (e.g., 1.50 for 1.50 USDC)."
+            "description": "The amount to be charged to the user's balance. Represented in decimal units of the specified currency (e.g., 1.50 for $1.50 USD or 1.50 USDC)."
           },
           "currency": {
             "type": "string",
             "enum": [
               "USDC",
-              "USDT",
               "USD"
             ],
             "example": "USDC",
-            "description": "The three-letter ISO currency code or token symbol. Must match the user's available balance currency."
+            "description": "The currency for the charge. Each currency has an independent balance — the user must have sufficient funds in the specified currency. Use `USDC` for Solana-based payments or `USD` for fiat."
           },
           "description": {
             "type": "string",
@@ -733,8 +732,9 @@
           },
           "currency": {
             "type": "string",
+            "enum": ["USDC", "USD"],
             "example": "USDC",
-            "description": "The token symbol used for the transaction (Solana network)."
+            "description": "The currency used for the transaction."
           },
           "description": {
             "type": "string",
@@ -784,25 +784,38 @@
       "EarningsResponse": {
         "type": "object",
         "properties": {
+          "earnings": {
+            "type": "array",
+            "description": "One entry per supported currency. Each currency maintains an independent balance.",
+            "items": {
+              "$ref": "#/components/schemas/EarningsEntry"
+            }
+          }
+        }
+      },
+      "EarningsEntry": {
+        "type": "object",
+        "properties": {
           "currency": {
             "type": "string",
+            "enum": ["USDC", "USD"],
             "example": "USDC",
-            "description": "The currency symbol in which the earnings are denominated (e.g., USDC on Solana)."
+            "description": "The currency for this earnings entry."
           },
           "totalEarned": {
             "type": "number",
             "example": 1550.75,
-            "description": "The net amount earned by the agent, after any applicable platform fees. This represents the balance available for withdrawal."
+            "description": "The net amount earned by the agent in this currency, after applicable platform fees."
           },
           "totalCharges": {
             "type": "integer",
             "example": 142,
-            "description": "The total number of successful payment transactions processed by this agent."
+            "description": "The total number of successful charges processed in this currency."
           },
           "currentBalance": {
             "type": "number",
             "example": 18.889,
-            "description": "The agent's current balance pending withdrawal — accumulated earnings that have not yet been paid out."
+            "description": "The current balance available for withdrawal in this currency."
           }
         }
       },
